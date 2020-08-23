@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Home</title>
+    <!-- 如下记载js、css资源 -->
+    <script type="text/javascript" src="test1.js"></script>
+    <link type="text/css" rel="stylesheet" href="test1.css"/>
+</head>
+<body>
+<h1>Resource Intercept Example</h1>
+<h2 id="result"></h2>
+<script>
+    // 调用test1.js中的myFunc
+    document.getElementById('result').innerHTML = myFunc();
+</script>
+</body>
+</html>
