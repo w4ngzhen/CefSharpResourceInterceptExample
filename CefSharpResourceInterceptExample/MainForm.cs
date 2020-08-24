@@ -55,12 +55,47 @@ namespace CefSharpResourceInterceptExample
     {
         protected override IResourceHandler GetResourceHandler(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request)
         {
-            return new MyResourceHandler();
+            if (request.Url.EndsWith("test1.js") || request.Url.EndsWith("test1.css"))
+            {
+                MessageBox.Show($@"资源拦截：{request.Url}");
+
+                string type = request.Url.EndsWith(".js") ? "js" : "css"; // 这里简单判断js还是css，不过多编写
+                string fileName = null;
+                using (OpenFileDialog openFileDialog = new OpenFileDialog())
+                {
+                    openFileDialog.Filter = $@"{type}文件|*.{type}"; // 过滤
+                    openFileDialog.Multiselect = true;
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        fileName = openFileDialog.FileName;
+                    }
+                }
+
+                if (string.IsNullOrWhiteSpace(fileName))
+                {
+                    // 没有选择文件，还是走默认的Handler
+                    return base.GetResourceHandler(chromiumWebBrowser, browser, frame, request);
+                }
+                // 否则使用选择的资源返回
+                return new MyResourceHandler(fileName);
+            }
+
+            return base.GetResourceHandler(chromiumWebBrowser, browser, frame, request);
         }
     }
 
     public class MyResourceHandler : IResourceHandler
     {
+        private readonly string _localResourceFileName;
+        private byte[] _localResourceData;
+        private int _dataReadCount;
+
+        public MyResourceHandler(string localResourceFileName)
+        {
+            this._localResourceFileName = localResourceFileName;
+            this._dataReadCount = 0;
+        }
+
         public void Dispose()
         {
             
@@ -79,7 +114,19 @@ namespace CefSharpResourceInterceptExample
 
         public void GetResponseHeaders(IResponse response, out long responseLength, out string redirectUrl)
         {
-            throw new NotImplementedException();
+            using (FileStream fileStream = new FileStream(this._localResourceFileName, FileMode.Open, FileAccess.Read))
+            {
+                using (BinaryReader binaryReader = new BinaryReader(fileStream))
+                {
+                    long length = fileStream.Length;
+                    this._localResourceData = new byte[length];
+                    // 读取文件中的内容并保存到私有变量字节数组中
+                    binaryReader.Read(this._localResourceData, 0, this._localResourceData.Length);
+                }
+            }
+
+            responseLength = this._localResourceData.Length;
+            redirectUrl = null;
         }
 
         public bool Skip(long bytesToSkip, out long bytesSkipped, IResourceSkipCallback callback)
@@ -89,7 +136,18 @@ namespace CefSharpResourceInterceptExample
 
         public bool Read(Stream dataOut, out int bytesRead, IResourceReadCallback callback)
         {
-            throw new NotImplementedException();
+            int leftToRead = this._localResourceData.Length - this._dataReadCount;
+            if (leftToRead == 0)
+            {
+                bytesRead = 0;
+                return false;
+            }
+
+            int needRead = Math.Min((int)dataOut.Length, leftToRead);
+            dataOut.Write(this._localResourceData, this._dataReadCount, needRead);
+            this._dataReadCount += needRead;
+            bytesRead = needRead;
+            return true;
         }
 
         public bool ReadResponse(Stream dataOut, out int bytesRead, ICallback callback)
@@ -99,7 +157,7 @@ namespace CefSharpResourceInterceptExample
 
         public void Cancel()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

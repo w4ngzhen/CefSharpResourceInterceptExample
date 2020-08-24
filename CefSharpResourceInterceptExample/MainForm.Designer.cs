@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.PnlTop = new System.Windows.Forms.Panel();
-            this.PnlMain = new System.Windows.Forms.Panel();
-            this.TxtBoxUrl = new System.Windows.Forms.TextBox();
             this.BtnGo = new System.Windows.Forms.Button();
+            this.TxtBoxUrl = new System.Windows.Forms.TextBox();
+            this.PnlMain = new System.Windows.Forms.Panel();
             this.PnlTop.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -43,16 +43,19 @@
             this.PnlTop.Location = new System.Drawing.Point(0, 0);
             this.PnlTop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.PnlTop.Name = "PnlTop";
-            this.PnlTop.Size = new System.Drawing.Size(528, 43);
+            this.PnlTop.Size = new System.Drawing.Size(569, 59);
             this.PnlTop.TabIndex = 0;
             // 
-            // PnlMain
+            // BtnGo
             // 
-            this.PnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PnlMain.Location = new System.Drawing.Point(0, 43);
-            this.PnlMain.Name = "PnlMain";
-            this.PnlMain.Size = new System.Drawing.Size(528, 307);
-            this.PnlMain.TabIndex = 1;
+            this.BtnGo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnGo.Location = new System.Drawing.Point(483, 11);
+            this.BtnGo.Name = "BtnGo";
+            this.BtnGo.Size = new System.Drawing.Size(75, 37);
+            this.BtnGo.TabIndex = 1;
+            this.BtnGo.Text = "Go";
+            this.BtnGo.UseVisualStyleBackColor = true;
+            this.BtnGo.Click += new System.EventHandler(this.BtnGo_Click);
             // 
             // TxtBoxUrl
             // 
@@ -60,25 +63,22 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TxtBoxUrl.Location = new System.Drawing.Point(12, 10);
             this.TxtBoxUrl.Name = "TxtBoxUrl";
-            this.TxtBoxUrl.Size = new System.Drawing.Size(409, 23);
+            this.TxtBoxUrl.Size = new System.Drawing.Size(450, 39);
             this.TxtBoxUrl.TabIndex = 0;
             // 
-            // BtnGo
+            // PnlMain
             // 
-            this.BtnGo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnGo.Location = new System.Drawing.Point(442, 9);
-            this.BtnGo.Name = "BtnGo";
-            this.BtnGo.Size = new System.Drawing.Size(75, 25);
-            this.BtnGo.TabIndex = 1;
-            this.BtnGo.Text = "Go";
-            this.BtnGo.UseVisualStyleBackColor = true;
-            this.BtnGo.Click += new System.EventHandler(this.BtnGo_Click);
+            this.PnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PnlMain.Location = new System.Drawing.Point(0, 59);
+            this.PnlMain.Name = "PnlMain";
+            this.PnlMain.Size = new System.Drawing.Size(569, 344);
+            this.PnlMain.TabIndex = 1;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(528, 350);
+            this.ClientSize = new System.Drawing.Size(569, 403);
             this.Controls.Add(this.PnlMain);
             this.Controls.Add(this.PnlTop);
             this.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
